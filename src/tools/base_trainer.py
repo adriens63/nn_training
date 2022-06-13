@@ -6,7 +6,6 @@ import pandas as pd
 import numpy as np
 import os
 import os.path as osp
-from datasets import load_metric
 import json
 from abc import ABC, abstractmethod
 
@@ -19,6 +18,15 @@ from src.tools.timer import timeit
 
 
 # ********************* trainer *********************
+class TraceWrapper(torch.nn.Module):
+    def __init__(self, model):
+        super().__init__()
+        self.model = model
+
+    def forward(self, input):
+        out = self.model(input)
+        return out[0]["boxes"], out[0]["labels"], out[0]["masks"]
+
 
 
 class BaseTrainer(ABC):
@@ -26,6 +34,7 @@ class BaseTrainer(ABC):
     def __init__(
             self,
             device,
+            distributed_training,
             model,
             epochs,
             batch_size,
@@ -38,13 +47,12 @@ class BaseTrainer(ABC):
             val_data_loader,
             val_steps,
             checkpoint_frequency,
-            metric_frequency,
             model_name,
             weights_path,
             ) -> None:
         
         self.device = device
-        self.model = torch.nn.DataParallel(model.to(device))
+        self.model = torch.nn.DataParallel(model.to(device)) if distributed_training else model.to(device) #TraceWrapper(model) #TODO
         self.epochs = epochs
         self.batch_size = batch_size
         self.loss_fn = loss_fn
@@ -56,9 +64,6 @@ class BaseTrainer(ABC):
         self.val_data_loader = val_data_loader
         self.val_steps = val_steps
         self.checkpoint_frequency = checkpoint_frequency
-        self.metric_frequency = metric_frequency
-        self.train_metric_steps = np.floor(metric_frequency * len(train_data_loader))
-        self.val_metric_steps = np.floor(metric_frequency * len(val_data_loader))
         self.model_name = model_name
         self.weights_path = weights_path
         self.mod_dir = weights_path + model_name + '/'
@@ -66,40 +71,28 @@ class BaseTrainer(ABC):
         self.ckp_dir = weights_path + model_name + '/ckp_dir/'
         self.res_dir = weights_path + model_name + '/res_dir/'
 
-        self.metric = load_metric('accuracy')
-        self.tmp_metric = load_metric('accuracy')
-        self.loss = {"train": [], "val": []}
-        self.acc = {"train": [], "val": []}
-        self.epoch_loss = {"train": [], "val": []}
-        self.epoch_acc = {"train": [], "val": []}
         self.w = SummaryWriter(log_dir = self.log_dir)
         self.last_loss = np.inf
         self.trigger_times = 0
-
-        if self.train_metric_steps * self.val_metric_steps == 0:
-
-            raise ValueError('Chose lower frequency, there is not enough batches for this one')
-
 
 
     def train(self) -> None:
 
         self._summary()
-        self._write_graph()
+        #self._write_graph() #TODO les sorties sont bonnes mais ne marche pas write graph avec distributed
 
 
         print('.... Start training')
 
         for e in range(self.epochs):
 
-            self._train_step()
+            self._train_step(e)
             self._val_step()
-            self._epoch_summary(e)
+            #self._epoch_summary(e)
             self._write_metrics(e)
             
-            if self._early_stopping():
-                break
-
+            # if self._early_stopping(): #TODO early stopping
+            #     break
 
             if self.lr_scheduler is not None:
 
@@ -134,36 +127,10 @@ class BaseTrainer(ABC):
 
 
     @timeit
+    @abstractmethod
     def _write_metrics(self, epoch: int) -> None:
 
-        print('.... Saving metrics to tensorboard')
-        self.w.add_scalar('loss/train', self.loss['train'][-1], epoch)
-        self.w.add_scalar('loss/val', self.loss['val'][-1], epoch)
-
-        self.w.add_scalar('acc/train', self.acc['train'][-1], epoch)
-        self.w.add_scalar('acc/val', self.acc['val'][-1], epoch)
-
-        self.w.add_scalars('losses', {'train_loss': self.loss['train'][-1],
-                                        'val_loss': self.loss['val'][-1]}, epoch)
-        
-        self.w.add_scalars('accs', {'train_acc': self.acc['train'][-1],
-                                        'val_acc': self.acc['val'][-1]}, epoch)
-
-        for i, (train_loss, val_loss) in enumerate(zip(self.epoch_loss['train'], self.epoch_loss['val'])):
-
-            self.w.add_scalars('epoch_losses', {'train_loss': train_loss,
-                                        'val_loss': val_loss}, epoch * np.floor(1 / self.metric_frequency) + i)
-
-        for i, (train_acc, val_acc) in enumerate(zip(self.epoch_acc['train'], self.epoch_acc['val'])):
-
-            self.w.add_scalars('epoch_acc', {'train_acc': train_acc,
-                                        'val_acc': val_acc}, epoch * np.floor(1 / self.metric_frequency) + i)
-
-        for name, param in self.model.named_parameters():
-
-            self.w.add_histogram(name, param, epoch)
-        print('done;')
-        print()
+        pass
 
 
 
@@ -173,10 +140,11 @@ class BaseTrainer(ABC):
         print('.... Start writing graph')
         self.model.eval()
 
-        dummy_input = torch.zeros(size = [2, 1], dtype = torch.long).to(self.device)
-        list_inp = [dummy_input, dummy_input, dummy_input]
+        dummy_input = (.5 * torch.ones(size = [2, 3, 400, 400], dtype = torch.long)).to('cpu')
+        dummy_input
+        print(dummy_input.get_device())
 
-        self.w.add_graph(self.model, input_to_model = list_inp, verbose = False)
+        self.w.add_graph(self.model, input_to_model = dummy_input, verbose = False)
         print('done;')
         print()
 
@@ -313,5 +281,5 @@ class BaseTrainer(ABC):
         loss_path = osp.join(self.mod_dir, "loss.json")
         with open(loss_path, "w") as fp:
             
-            json.dump(self.loss, fp)
-            json.dump(self.acc, fp)
+            json.dump(self.train_metrics, fp)
+            json.dump(self.val_metrics, fp)

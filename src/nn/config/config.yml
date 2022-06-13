@@ -1,0 +1,21 @@
+model_name: fine_tuned_m_r_cnn
+tasks: ['bbox', 'segm']
+
+device: cuda
+distributed_training: False
+
+num_classes: 2
+
+loss_fn:
+
+train_ds: /coding_linux20/programming/python_scripts/encov_torch/mask_rcnn_training/inp/PennFudanPed
+val_ds: /coding_linux20/programming/python_scripts/encov_torch/mask_rcnn_training/inp/PennFudanPed
+weights_path: /coding_linux20/programming/python_scripts/encov_torch/nn_training/src/nn/weights/
+
+batch_size: 2
+epochs: 2
+patience: 3
+checkpoint_frequency:
+
+train_steps: 2
+val_steps: 1

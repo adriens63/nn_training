@@ -1,23 +1,29 @@
 import torch
 import torchvision
 import numpy as np
+import os.path as osp
 
 from src.nn.archs.data_load import *
 from src.nn.archs.helper import *
 from src.nn.archs.segmentation import *
-from src.nn.references.detection.engine import train_one_epoch, evaluate
+from src.nn.archs.trainer import Trainer
+
 import src.nn.references.detection.utils as utils
 
+from src.tools.helper import log_config
 
-def main():
+
+
+def main(config):
     # train on the GPU or on the CPU, if a GPU is not available
-    device = torch.device('cuda') if torch.cuda.is_available() else torch.device('cpu')
+    device = torch.device(config['device'])
 
     # our dataset has two classes only - background and person
-    num_classes = 2
+    num_classes = config['num_classes']
+
     # use our dataset and defined transformations
-    dataset = PennFudanDataset('/coding_linux20/programming/python_scripts/encov_torch/mask_rcnn_training/inp/PennFudanPed', get_transform(train=True))
-    dataset_test = PennFudanDataset('/coding_linux20/programming/python_scripts/encov_torch/mask_rcnn_training/inp/PennFudanPed', get_transform(train=False))
+    dataset = PennFudanDataset(config['train_ds'], get_transform(train=True))
+    dataset_test = PennFudanDataset(config['val_ds'], get_transform(train=False))
 
     # split the dataset in train and test set
     indices = torch.randperm(len(dataset)).tolist()
@@ -25,22 +31,22 @@ def main():
     dataset_test = torch.utils.data.Subset(dataset_test, indices[-50:])
 
     # define training and validation data loaders
-    data_loader = torch.utils.data.DataLoader(
-        dataset, batch_size=2, shuffle=True, num_workers=4,
+    train_dataloader = torch.utils.data.DataLoader(
+        dataset, batch_size=config['batch_size'], shuffle=True, num_workers=4,
         collate_fn=utils.collate_fn)
 
-    data_loader_test = torch.utils.data.DataLoader(
-        dataset_test, batch_size=1, shuffle=False, num_workers=4,
+    val_dataloader = torch.utils.data.DataLoader(
+        dataset_test, batch_size=config['batch_size'], shuffle=False, num_workers=4,
         collate_fn=utils.collate_fn)
 
     # get the model using our helper function
-    model = get_model_instance_segmentation(num_classes)
+    nn = get_model_instance_segmentation(num_classes)
 
-    # move model to the right device
-    model.to(device)
+    # # move model to the right device
+    # model.to(device)
 
     # construct an optimizer
-    params = [p for p in model.parameters() if p.requires_grad]
+    params = [p for p in nn.parameters() if p.requires_grad]
     optimizer = torch.optim.SGD(params, lr=0.005,
                                 momentum=0.9, weight_decay=0.0005)
     # and a learning rate scheduler
@@ -48,31 +54,32 @@ def main():
                                                    step_size=3,
                                                    gamma=0.1)
 
-    # let's train it for 10 epochs
-    num_epochs = 2
-
-    for epoch in range(num_epochs):
-        # train for one epoch, printing every 10 iterations
-        train_one_epoch(model, optimizer, data_loader, device, epoch, print_freq=10)
-        # update the learning rate
-        lr_scheduler.step()
-        # evaluate on the test dataset
-        evaluate(model, data_loader_test, device=device)
-
-    # @timeit
-    # def save_model(self) -> None:
-
-    #     print('.... Saving model')
-    #     model_path = osp.join()
-        
-    #     if not osp.exists(model_path):
-            
-    #         os.makedirs(model_path)
-
-    #     torch.save(self.model, model_path + '/' + self.model_name + '.pt')
-
-    #     print('done;')
-    #     print()
+    trainer = Trainer(
+            device = device,
+            distributed_training = config['distributed_training'],
+            model = nn,
+            tasks = config['tasks'],
+            epochs = config['epochs'],
+            batch_size = config['batch_size'],
+            loss_fn = config['loss_fn'],
+            optimizer = optimizer,
+            lr_scheduler = lr_scheduler,
+            patience = config['patience'],
+            train_data_loader = train_dataloader,
+            train_steps = config['train_steps'],
+            val_data_loader = val_dataloader,
+            val_steps = config['val_steps'],
+            checkpoint_frequency = config['checkpoint_frequency'],
+            model_name = config['model_name'],
+            weights_path = config['weights_path'],
+            )
 
 
-main()
+    trainer.train()
+    trainer.save_model()
+    #trainer.classification_report()
+    trainer.save_loss()
+
+    log_config(config, osp.join(config['weights_path'], config['model_name']))
+
+    print('NN saved to directory: ', config['weights_path'])

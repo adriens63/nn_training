@@ -1,0 +1,20 @@
+model_name: fine_tuned_m_r_cnn
+
+device: cuda
+distributed_training: False
+
+num_classes: 2
+
+loss_fn:
+
+train_ds: /coding_linux20/programming/python_scripts/encov_torch/nn_training/inp/coco
+val_ds: /coding_linux20/programming/python_scripts/encov_torch/nn_training/inp/coco
+weights_path: /coding_linux20/programming/python_scripts/encov_torch/nn_training/src/nn/weights/
+
+batch_size: 2
+epochs: 2
+patience: 3
+checkpoint_frequency:
+
+train_steps: 10
+val_steps: 5
