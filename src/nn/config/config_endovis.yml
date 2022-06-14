@@ -1,6 +1,5 @@
 model_name: fine_tuned_m_r_cnn
 
-tasks: ['bbox', 'segm']
 heads: 
   bbox: 'fastrcnn'
   segm: 'maskrcnn'

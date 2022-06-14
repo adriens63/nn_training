@@ -5,8 +5,10 @@ import os.path as osp
 
 from src.nn.archs.data_load import *
 from src.nn.archs.helper import *
-from src.nn.archs.segmentation import *
+#from src.nn.archs.segmentation import *
 from src.nn.archs.trainer import Trainer
+
+from src.nn.models.models import *
 
 import src.nn.references.detection.utils as utils
 
@@ -17,9 +19,6 @@ from src.tools.helper import log_config
 def main(config):
     # train on the GPU or on the CPU, if a GPU is not available
     device = torch.device(config['device'])
-
-    # our dataset has two classes only - background and person
-    num_classes = config['num_classes']
 
     # use our dataset and defined transformations
     dataset = PennFudanDataset(config['train_ds'], get_transform(train=True))
@@ -40,7 +39,8 @@ def main(config):
         collate_fn=utils.collate_fn)
 
     # get the model using our helper function
-    nn = get_model_instance_segmentation(num_classes)
+    nn = get_model_instance(config['num_classes'], config['hidden_layer_segm'] ,config['heads'])
+    #nn = get_model_instance_segmentation(2)
 
     # # move model to the right device
     # model.to(device)
@@ -53,6 +53,7 @@ def main(config):
     lr_scheduler = torch.optim.lr_scheduler.StepLR(optimizer,
                                                    step_size=3,
                                                    gamma=0.1)
+
 
     trainer = Trainer(
             device = device,

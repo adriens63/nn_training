@@ -1,3 +1,5 @@
+val_metrics {'bbox': {'val/bbox/Average Precision  (AP) @[ IoU=0.50:0.95 | area=   all | maxDets=100 ]': 0, 'val/bbox/Average Precision  (AP) @[ IoU=0.50      | area=   all | maxDets=100 ]': 0, 'val/bbox/Average Precision  (AP) @[ IoU=0.75      | area=   all | maxDets=100 ]': 0, 'val/bbox/Average Precision  (AP) @[ IoU=0.50:0.95 | area= small | maxDets=100 ]': 0, 'val/bbox/Average Precision  (AP) @[ IoU=0.50:0.95 | area=medium | maxDets=100 ]': 0, 'val/bbox/Average Precision  (AP) @[ IoU=0.50:0.95 | area= large | maxDets=100 ]': 0, 'val/bbox/Average Recall     (AR) @[ IoU=0.50:0.95 | area=   all | maxDets=  1 ]': 0, 'val/bbox/Average Recall     (AR) @[ IoU=0.50:0.95 | area=   all | maxDets= 10 ]': 0, 'val/bbox/Average Recall     (AR) @[ IoU=0.50:0.95 | area=   all | maxDets=100 ]': 0, 'val/bbox/Average Recall     (AR) @[ IoU=0.50:0.95 | area= small | maxDets=100 ]': 0, 'val/bbox/Average Recall     (AR) @[ IoU=0.50:0.95 | area=medium | maxDets=100 ]': 0, 'val/bbox/Average Recall     (AR) @[ IoU=0.50:0.95 | area= large | maxDets=100 ]': 0}}
+val_metrics {'bbox': {'val/bbox/Average Precision  (AP) @[ IoU=0.50:0.95 | area=   all | maxDets=100 ]': 0, 'val/bbox/Average Precision  (AP) @[ IoU=0.50      | area=   all | maxDets=100 ]': 0, 'val/bbox/Average Precision  (AP) @[ IoU=0.75      | area=   all | maxDets=100 ]': 0, 'val/bbox/Average Precision  (AP) @[ IoU=0.50:0.95 | area= small | maxDets=100 ]': 0, 'val/bbox/Average Precision  (AP) @[ IoU=0.50:0.95 | area=medium | maxDets=100 ]': 0, 'val/bbox/Average Precision  (AP) @[ IoU=0.50:0.95 | area= large | maxDets=100 ]': 0, 'val/bbox/Average Recall     (AR) @[ IoU=0.50:0.95 | area=   all | maxDets=  1 ]': 0, 'val/bbox/Average Recall     (AR) @[ IoU=0.50:0.95 | area=   all | maxDets= 10 ]': 0, 'val/bbox/Average Recall     (AR) @[ IoU=0.50:0.95 | area=   all | maxDets=100 ]': 0, 'val/bbox/Average Recall     (AR) @[ IoU=0.50:0.95 | area= small | maxDets=100 ]': 0, 'val/bbox/Average Recall     (AR) @[ IoU=0.50:0.95 | area=medium | maxDets=100 ]': 0, 'val/bbox/Average Recall     (AR) @[ IoU=0.50:0.95 | area= large | maxDets=100 ]': 0}, 'segm': {'val/segm/Average Precision  (AP) @[ IoU=0.50:0.95 | area=   all | maxDets=100 ]': 0, 'val/segm/Average Precision  (AP) @[ IoU=0.50      | area=   all | maxDets=100 ]': 0, 'val/segm/Average Precision  (AP) @[ IoU=0.75      | area=   all | maxDets=100 ]': 0, 'val/segm/Average Precision  (AP) @[ IoU=0.50:0.95 | area= small | maxDets=100 ]': 0, 'val/segm/Average Precision  (AP) @[ IoU=0.50:0.95 | area=medium | maxDets=100 ]': 0, 'val/segm/Average Precision  (AP) @[ IoU=0.50:0.95 | area= large | maxDets=100 ]': 0, 'val/segm/Average Recall     (AR) @[ IoU=0.50:0.95 | area=   all | maxDets=  1 ]': 0, 'val/segm/Average Recall     (AR) @[ IoU=0.50:0.95 | area=   all | maxDets= 10 ]': 0, 'val/segm/Average Recall     (AR) @[ IoU=0.50:0.95 | area=   all | maxDets=100 ]': 0, 'val/segm/Average Recall     (AR) @[ IoU=0.50:0.95 | area= small | maxDets=100 ]': 0, 'val/segm/Average Recall     (AR) @[ IoU=0.50:0.95 | area=medium | maxDets=100 ]': 0, 'val/segm/Average Recall     (AR) @[ IoU=0.50:0.95 | area= large | maxDets=100 ]': 0}}
 Summary: 
 +-------------------------------------------------+------------+
 |                     Modules                     | Parameters |
@@ -93,89 +95,89 @@ done;
 '_summary' 0.00 sec
 
 .... Start training
-Epoch: [0]  [ 0/60]  eta: 0:01:23  lr: 0.000090  loss: 4.3563 (4.3563)  loss_classifier: 0.5873 (0.5873)  loss_box_reg: 0.4448 (0.4448)  loss_mask: 3.3105 (3.3105)  loss_objectness: 0.0093 (0.0093)  loss_rpn_box_reg: 0.0044 (0.0044)  time: 1.3862  data: 0.1726  max mem: 2585
+Epoch: [0]  [ 0/60]  eta: 0:02:14  lr: 0.000090  loss: 7.2099 (7.2099)  loss_classifier: 0.6591 (0.6591)  loss_box_reg: 0.2129 (0.2129)  loss_mask: 6.3306 (6.3306)  loss_objectness: 0.0027 (0.0027)  loss_rpn_box_reg: 0.0046 (0.0046)  time: 2.2445  data: 0.2262  max mem: 2118
 creating index...
 index created!
-Test:  [ 0/25]  eta: 0:00:11  model_time: 0.2774 (0.2774)  evaluator_time: 0.0228 (0.0228)  time: 0.4440  data: 0.1375  max mem: 2738
-Averaged stats: model_time: 0.2947 (0.3086)  evaluator_time: 0.0417 (0.0388)
+Test:  [ 0/25]  eta: 0:00:16  model_time: 0.3972 (0.3972)  evaluator_time: 0.0846 (0.0846)  time: 0.6684  data: 0.1830  max mem: 2851
+Averaged stats: model_time: 0.3792 (0.3882)  evaluator_time: 0.0837 (0.0841)
 Accumulating evaluation results...
 DONE (t=0.00s).
 Accumulating evaluation results...
 DONE (t=0.00s).
 IoU metric: bbox
- Average Precision  (AP) @[ IoU=0.50:0.95 | area=   all | maxDets=100 ] = 0.300
- Average Precision  (AP) @[ IoU=0.50      | area=   all | maxDets=100 ] = 0.724
- Average Precision  (AP) @[ IoU=0.75      | area=   all | maxDets=100 ] = 0.179
+ Average Precision  (AP) @[ IoU=0.50:0.95 | area=   all | maxDets=100 ] = 0.050
+ Average Precision  (AP) @[ IoU=0.50      | area=   all | maxDets=100 ] = 0.231
+ Average Precision  (AP) @[ IoU=0.75      | area=   all | maxDets=100 ] = 0.016
  Average Precision  (AP) @[ IoU=0.50:0.95 | area= small | maxDets=100 ] = -1.000
  Average Precision  (AP) @[ IoU=0.50:0.95 | area=medium | maxDets=100 ] = -1.000
- Average Precision  (AP) @[ IoU=0.50:0.95 | area= large | maxDets=100 ] = 0.345
- Average Recall     (AR) @[ IoU=0.50:0.95 | area=   all | maxDets=  1 ] = 0.209
- Average Recall     (AR) @[ IoU=0.50:0.95 | area=   all | maxDets= 10 ] = 0.561
- Average Recall     (AR) @[ IoU=0.50:0.95 | area=   all | maxDets=100 ] = 0.570
+ Average Precision  (AP) @[ IoU=0.50:0.95 | area= large | maxDets=100 ] = 0.137
+ Average Recall     (AR) @[ IoU=0.50:0.95 | area=   all | maxDets=  1 ] = 0.000
+ Average Recall     (AR) @[ IoU=0.50:0.95 | area=   all | maxDets= 10 ] = 0.180
+ Average Recall     (AR) @[ IoU=0.50:0.95 | area=   all | maxDets=100 ] = 0.310
  Average Recall     (AR) @[ IoU=0.50:0.95 | area= small | maxDets=100 ] = -1.000
  Average Recall     (AR) @[ IoU=0.50:0.95 | area=medium | maxDets=100 ] = -1.000
- Average Recall     (AR) @[ IoU=0.50:0.95 | area= large | maxDets=100 ] = 0.570
+ Average Recall     (AR) @[ IoU=0.50:0.95 | area= large | maxDets=100 ] = 0.310
 IoU metric: segm
- Average Precision  (AP) @[ IoU=0.50:0.95 | area=   all | maxDets=100 ] = 0.441
- Average Precision  (AP) @[ IoU=0.50      | area=   all | maxDets=100 ] = 0.741
- Average Precision  (AP) @[ IoU=0.75      | area=   all | maxDets=100 ] = 0.607
+ Average Precision  (AP) @[ IoU=0.50:0.95 | area=   all | maxDets=100 ] = 0.000
+ Average Precision  (AP) @[ IoU=0.50      | area=   all | maxDets=100 ] = 0.002
+ Average Precision  (AP) @[ IoU=0.75      | area=   all | maxDets=100 ] = 0.000
  Average Precision  (AP) @[ IoU=0.50:0.95 | area= small | maxDets=100 ] = -1.000
  Average Precision  (AP) @[ IoU=0.50:0.95 | area=medium | maxDets=100 ] = -1.000
- Average Precision  (AP) @[ IoU=0.50:0.95 | area= large | maxDets=100 ] = 0.562
- Average Recall     (AR) @[ IoU=0.50:0.95 | area=   all | maxDets=  1 ] = 0.283
- Average Recall     (AR) @[ IoU=0.50:0.95 | area=   all | maxDets= 10 ] = 0.652
- Average Recall     (AR) @[ IoU=0.50:0.95 | area=   all | maxDets=100 ] = 0.652
+ Average Precision  (AP) @[ IoU=0.50:0.95 | area= large | maxDets=100 ] = 0.001
+ Average Recall     (AR) @[ IoU=0.50:0.95 | area=   all | maxDets=  1 ] = 0.000
+ Average Recall     (AR) @[ IoU=0.50:0.95 | area=   all | maxDets= 10 ] = 0.000
+ Average Recall     (AR) @[ IoU=0.50:0.95 | area=   all | maxDets=100 ] = 0.040
  Average Recall     (AR) @[ IoU=0.50:0.95 | area= small | maxDets=100 ] = -1.000
  Average Recall     (AR) @[ IoU=0.50:0.95 | area=medium | maxDets=100 ] = -1.000
- Average Recall     (AR) @[ IoU=0.50:0.95 | area= large | maxDets=100 ] = 0.652
-iiiiiiiiiiiiiiiii
-<src.nn.references.detection.coco_eval.CocoEvaluator object at 0x7f4cb8374e50>
-iiiiiiiiiiiiiiiiii
-Epoch: [1]  [ 0/60]  eta: 0:00:52  lr: 0.000936  loss: 0.5895 (0.5895)  loss_classifier: 0.1323 (0.1323)  loss_box_reg: 0.1738 (0.1738)  loss_mask: 0.2599 (0.2599)  loss_objectness: 0.0192 (0.0192)  loss_rpn_box_reg: 0.0042 (0.0042)  time: 0.8805  data: 0.1437  max mem: 2738
+ Average Recall     (AR) @[ IoU=0.50:0.95 | area= large | maxDets=100 ] = 0.040
+.... Saving metrics to tensorboard
+done;
+
+Epoch: [1]  [ 0/60]  eta: 0:01:01  lr: 0.000259  loss: 4.9610 (4.9610)  loss_classifier: 0.6457 (0.6457)  loss_box_reg: 0.5976 (0.5976)  loss_mask: 3.6822 (3.6822)  loss_objectness: 0.0243 (0.0243)  loss_rpn_box_reg: 0.0111 (0.0111)  time: 1.0273  data: 0.2312  max mem: 2851
 creating index...
 index created!
-Test:  [ 0/25]  eta: 0:00:10  model_time: 0.2702 (0.2702)  evaluator_time: 0.0208 (0.0208)  time: 0.4370  data: 0.1395  max mem: 2738
-Averaged stats: model_time: 0.2582 (0.2824)  evaluator_time: 0.0208 (0.0271)
+Test:  [ 0/25]  eta: 0:00:16  model_time: 0.3988 (0.3988)  evaluator_time: 0.0868 (0.0868)  time: 0.6730  data: 0.1845  max mem: 2851
+Averaged stats: model_time: 0.3988 (0.4093)  evaluator_time: 0.0868 (0.0901)
 Accumulating evaluation results...
 DONE (t=0.00s).
 Accumulating evaluation results...
 DONE (t=0.00s).
 IoU metric: bbox
- Average Precision  (AP) @[ IoU=0.50:0.95 | area=   all | maxDets=100 ] = 0.578
- Average Precision  (AP) @[ IoU=0.50      | area=   all | maxDets=100 ] = 0.996
- Average Precision  (AP) @[ IoU=0.75      | area=   all | maxDets=100 ] = 0.521
+ Average Precision  (AP) @[ IoU=0.50:0.95 | area=   all | maxDets=100 ] = 0.139
+ Average Precision  (AP) @[ IoU=0.50      | area=   all | maxDets=100 ] = 0.453
+ Average Precision  (AP) @[ IoU=0.75      | area=   all | maxDets=100 ] = 0.025
  Average Precision  (AP) @[ IoU=0.50:0.95 | area= small | maxDets=100 ] = -1.000
  Average Precision  (AP) @[ IoU=0.50:0.95 | area=medium | maxDets=100 ] = -1.000
- Average Precision  (AP) @[ IoU=0.50:0.95 | area= large | maxDets=100 ] = 0.578
- Average Recall     (AR) @[ IoU=0.50:0.95 | area=   all | maxDets=  1 ] = 0.352
- Average Recall     (AR) @[ IoU=0.50:0.95 | area=   all | maxDets= 10 ] = 0.617
- Average Recall     (AR) @[ IoU=0.50:0.95 | area=   all | maxDets=100 ] = 0.617
+ Average Precision  (AP) @[ IoU=0.50:0.95 | area= large | maxDets=100 ] = 0.245
+ Average Recall     (AR) @[ IoU=0.50:0.95 | area=   all | maxDets=  1 ] = 0.100
+ Average Recall     (AR) @[ IoU=0.50:0.95 | area=   all | maxDets= 10 ] = 0.280
+ Average Recall     (AR) @[ IoU=0.50:0.95 | area=   all | maxDets=100 ] = 0.450
  Average Recall     (AR) @[ IoU=0.50:0.95 | area= small | maxDets=100 ] = -1.000
  Average Recall     (AR) @[ IoU=0.50:0.95 | area=medium | maxDets=100 ] = -1.000
- Average Recall     (AR) @[ IoU=0.50:0.95 | area= large | maxDets=100 ] = 0.617
+ Average Recall     (AR) @[ IoU=0.50:0.95 | area= large | maxDets=100 ] = 0.450
 IoU metric: segm
- Average Precision  (AP) @[ IoU=0.50:0.95 | area=   all | maxDets=100 ] = 0.565
- Average Precision  (AP) @[ IoU=0.50      | area=   all | maxDets=100 ] = 0.996
- Average Precision  (AP) @[ IoU=0.75      | area=   all | maxDets=100 ] = 0.546
+ Average Precision  (AP) @[ IoU=0.50:0.95 | area=   all | maxDets=100 ] = 0.024
+ Average Precision  (AP) @[ IoU=0.50      | area=   all | maxDets=100 ] = 0.178
+ Average Precision  (AP) @[ IoU=0.75      | area=   all | maxDets=100 ] = 0.000
  Average Precision  (AP) @[ IoU=0.50:0.95 | area= small | maxDets=100 ] = -1.000
  Average Precision  (AP) @[ IoU=0.50:0.95 | area=medium | maxDets=100 ] = -1.000
- Average Precision  (AP) @[ IoU=0.50:0.95 | area= large | maxDets=100 ] = 0.566
- Average Recall     (AR) @[ IoU=0.50:0.95 | area=   all | maxDets=  1 ] = 0.309
- Average Recall     (AR) @[ IoU=0.50:0.95 | area=   all | maxDets= 10 ] = 0.622
- Average Recall     (AR) @[ IoU=0.50:0.95 | area=   all | maxDets=100 ] = 0.622
+ Average Precision  (AP) @[ IoU=0.50:0.95 | area= large | maxDets=100 ] = 0.052
+ Average Recall     (AR) @[ IoU=0.50:0.95 | area=   all | maxDets=  1 ] = 0.010
+ Average Recall     (AR) @[ IoU=0.50:0.95 | area=   all | maxDets= 10 ] = 0.050
+ Average Recall     (AR) @[ IoU=0.50:0.95 | area=   all | maxDets=100 ] = 0.210
  Average Recall     (AR) @[ IoU=0.50:0.95 | area= small | maxDets=100 ] = -1.000
  Average Recall     (AR) @[ IoU=0.50:0.95 | area=medium | maxDets=100 ] = -1.000
- Average Recall     (AR) @[ IoU=0.50:0.95 | area= large | maxDets=100 ] = 0.622
-iiiiiiiiiiiiiiiii
-<src.nn.references.detection.coco_eval.CocoEvaluator object at 0x7f4cb394aa10>
-iiiiiiiiiiiiiiiiii
+ Average Recall     (AR) @[ IoU=0.50:0.95 | area= large | maxDets=100 ] = 0.210
+.... Saving metrics to tensorboard
+done;
+
 done;
 
 .... Saving model
 done;
 
-'save_model' 0.37 sec
+'save_model' 0.36 sec
 
 'save_loss' 0.00 sec
 
-NN saved to directory:  /coding_linux20/programming/python_scripts/encov_torch/nn_training/src/nn/weights
+NN saved to directory:  /coding_linux20/programming/python_scripts/encov_torch/nn_training/src/nn/weights/
