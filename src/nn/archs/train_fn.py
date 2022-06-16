@@ -21,8 +21,13 @@ def main(config):
     device = torch.device(config['device'])
 
     # use our dataset and defined transformations
-    dataset = PennFudanDataset(config['train_ds'], get_transform(train=True))
-    dataset_test = PennFudanDataset(config['val_ds'], get_transform(train=False))
+    if config['dataset'] == 'pennpudanped':
+        dataset = PennFudanDataset(config['train_ds'], get_transform(train=True))
+        dataset_test = PennFudanDataset(config['val_ds'], get_transform(train=False))
+        
+    if config['dataset'] == 'endovis':
+        dataset = EndovisDataset(config['train_ds'], get_transform(train=True))
+        dataset_test = EndovisDataset(config['val_ds'], get_transform(train=False))
 
     # split the dataset in train and test set
     indices = torch.randperm(len(dataset)).tolist()

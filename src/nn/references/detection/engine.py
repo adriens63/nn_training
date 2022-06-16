@@ -28,6 +28,7 @@ def train_one_epoch(model, optimizer, data_loader, device, epoch, print_freq, tr
     for i, (images, targets) in enumerate(metric_logger.log_every(data_loader, print_freq, header)):
         images = list((image/255).to(device) for image in images)
         targets = [{k: v.to(device) for k, v in t.items()} for t in targets]
+        print('ttttttttttttt', targets)
         with torch.cuda.amp.autocast(enabled=scaler is not None):
             loss_dict = model(images, targets)
             losses = sum(loss for loss in loss_dict.values())

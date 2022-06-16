@@ -1,5 +1,6 @@
-model_name: fine_tuned_m_r_cnn
+model_name: fine_tuned_m_r_cnn_2
 
+tasks: ['bbox', 'segm']
 heads: 
   bbox: 'fastrcnn'
   segm: 'maskrcnn'
@@ -14,14 +15,15 @@ hidden_layer_segm: 256
 
 loss_fn:
 
-train_ds: /coding_linux20/programming/python_scripts/encov_torch/mask_rcnn_training/inp/PennFudanPed
-val_ds: /coding_linux20/programming/python_scripts/encov_torch/mask_rcnn_training/inp/PennFudanPed
+dataset: endovis
+train_ds: /coding_linux20/programming/python_scripts/encov_torch/nn_training/inp/endovis/Test
+val_ds: /coding_linux20/programming/python_scripts/encov_torch/nn_training/inp/endovis/Test
 weights_path: /coding_linux20/programming/python_scripts/encov_torch/nn_training/src/nn/weights/
 
 batch_size: 2
-epochs: 2
+epochs: 3
 patience: 3
 checkpoint_frequency:
 
-train_steps: 2
-val_steps: 1
+train_steps: 400
+val_steps: 40
