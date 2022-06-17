@@ -48,8 +48,6 @@ class PennFudanDataset(torch.utils.data.Dataset):
             xmax = np.max(pos[1])
             ymin = np.min(pos[0])
             ymax = np.max(pos[0])
-            if xmin == xmax or ymin == ymax:
-                continue
             boxes.append([xmin, ymin, xmax, ymax])
 
         # convert everything into a torch.Tensor
@@ -134,8 +132,8 @@ class EndovisDataset(torch.utils.data.Dataset):
             xmax = np.max(pos[1])
             ymin = np.min(pos[0])
             ymax = np.max(pos[0])
-            # if xmin == xmax or ymin == ymax:
-            #     continue
+            if xmin >= xmax or ymin >= ymax:
+                continue
             boxes.append([xmin, ymin, xmax, ymax])
 
         # convert everything into a torch.Tensor

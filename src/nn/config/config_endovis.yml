@@ -1,4 +1,4 @@
-model_name: fine_tuned_m_r_cnn_2
+model_name: fine_tuned_m_r_cnn_0
 
 tasks: ['bbox', 'segm']
 heads: 
@@ -8,7 +8,7 @@ heads:
 
 
 device: cuda
-distributed_training: False
+distributed_training: True
 
 num_classes: 2
 hidden_layer_segm: 256
@@ -16,14 +16,14 @@ hidden_layer_segm: 256
 loss_fn:
 
 dataset: endovis
-train_ds: /coding_linux20/programming/python_scripts/encov_torch/nn_training/inp/endovis/Test
-val_ds: /coding_linux20/programming/python_scripts/encov_torch/nn_training/inp/endovis/Test
-weights_path: /coding_linux20/programming/python_scripts/encov_torch/nn_training/src/nn/weights/
+train_ds: /data/user/DATA_SSD/__adri/endovis/Test
+val_ds: /data/user/DATA_SSD/__adri/endovis/Test
+weights_path: /coding_linux20/encov_torch/nn_training/src/nn/weights/
 
-batch_size: 2
-epochs: 3
+batch_size: 6
+epochs: 12
 patience: 3
-checkpoint_frequency:
+checkpoint_frequency: 3
 
-train_steps: 400
-val_steps: 40
+train_steps: 2
+val_steps: 1
