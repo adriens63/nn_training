@@ -92,7 +92,7 @@ class EndovisDataset(torch.utils.data.Dataset):
         self.sub_sub_folder_masks = 'ground_truth/TypeSegmentationRescaled'
         self.imgs = []
         self.masks = []
-        for sf in self.sub_folders[:-9]:
+        for sf in self.sub_folders[:-1]:
 
             list_files = list(sorted(os.listdir(osp.join(root, sf, self.sub_sub_folder))))
             list_path = [osp.join(root, sf, self.sub_sub_folder, file) for file in list_files]

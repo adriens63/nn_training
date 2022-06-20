@@ -16,14 +16,14 @@ hidden_layer_segm: 256
 loss_fn:
 
 dataset: endovis
-train_ds: /data/user/DATA_SSD/__adri/endovis/Test
-val_ds: /data/user/DATA_SSD/__adri/endovis/Test
-weights_path: /coding_linux20/encov_torch/nn_training/src/nn/weights/
+train_ds: /data/user/DATA_SSD1/__adri/endovis/Test
+val_ds: /data/user/DATA_SSD1/__adri/endovis/Test
+weights_path: /data/user/DATA_SSD1/__adri/weights/
 
 batch_size: 6
-epochs: 12
+epochs: 20
 patience: 3
-checkpoint_frequency: 3
+checkpoint_frequency: 5
 
-train_steps: 2
-val_steps: 1
+train_steps:
+val_steps:

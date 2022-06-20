@@ -1,4 +1,4 @@
-model_name: fine_tuned_m_r_cnn
+model_name: fine_tuned_m_r_cnn_1_2
 
 tasks: ['bbox', 'segm']
 heads: 
@@ -16,14 +16,14 @@ hidden_layer_segm: 256
 loss_fn:
 
 dataset: pennpudanped
-train_ds: /coding_linux20/programming/python_scripts/encov_torch/nn_training/inp/PennFudanPed
-val_ds: /coding_linux20/programming/python_scripts/encov_torch/nn_training/inp/PennFudanPed
-weights_path: /coding_linux20/programming/python_scripts/encov_torch/nn_training/src/nn/weights/
+train_ds: /data/user/DATA_SSD1/__adri/PennFudanPed
+val_ds: /data/user/DATA_SSD1/__adri/PennFudanPed
+weights_path: /coding_linux20/encov_torch/nn_training/src/nn/weights/
 
-batch_size: 2
-epochs: 2
+batch_size: 4
+epochs: 30
 patience: 3
-checkpoint_frequency:
+checkpoint_frequency: 10
 
-train_steps: 2
-val_steps: 1
+train_steps:
+val_steps:

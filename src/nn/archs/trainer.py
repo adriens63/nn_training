@@ -77,8 +77,6 @@ class Trainer(BaseTrainer):
                 d[metric] = 0  
             
             self.val_metrics[task] = d
-
-            print('val_metrics' , self.val_metrics)
             
 
 
@@ -100,12 +98,12 @@ class Trainer(BaseTrainer):
     def _val_step(self) -> None:
 
         #self.model.eval()
-        coco_evaluator = evaluate(self.model, self.val_data_loader, device=self.device, val_steps=self.val_steps)
+        coco_evaluator = evaluate(self.model, self.val_data_loader, device=self.device, tasks = self.tasks, val_steps=self.val_steps)
 
         for task in self.tasks:
             metrics = coco_evaluator.coco_eval[task].stats
 
-            for i, key in enumerate(self.val_metrics.keys()):
+            for i, key in enumerate(self.val_metrics[task].keys()):
                 self.val_metrics[task][key] = metrics[i]
     
 
