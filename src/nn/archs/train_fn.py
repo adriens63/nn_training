@@ -16,6 +16,12 @@ from src.tools.helper import log_config
 
 
 
+torch.cuda.empty_cache()
+
+
+
+
+
 def main(config):
     # train on the GPU or on the CPU, if a GPU is not available
     device = torch.device(config['device'])
@@ -26,17 +32,24 @@ def main(config):
         dataset_test = PennFudanDataset(config['val_ds'], get_transform(train=False))
         
     if config['dataset'] == 'endovis':
-        dataset = EndovisDataset(config['train_ds'], get_transform(train=True))
-        dataset_test = EndovisDataset(config['val_ds'], get_transform(train=False))
+        dataset = EndovisTestDataset(config['train_ds'], get_transform(train=True))
+        dataset_test = EndovisTestDataset(config['val_ds'], get_transform(train=False))
+    
+    if config['dataset'] == 'endovis_tuned':
+        dataset = EndovisTunedDataset(config['train_ds'], get_transform(train=True), num_classes=config['num_classes'], train = True, val_frac = config['val_frac'])
+        dataset_test = EndovisTunedDataset(config['val_ds'], get_transform(train=True), num_classes=config['num_classes'], train = False, val_frac = config['val_frac'])
 
-    # split the dataset in train and test set
-    indices = torch.randperm(len(dataset)).tolist()
-    dataset = torch.utils.data.Subset(dataset, indices[:-50])
-    dataset_test = torch.utils.data.Subset(dataset_test, indices[-50:])
+
+    #removing bad samples from test ds
+    indices = list(range(270))
+    indices_bis = list(range(315, 360))
+    idx = indices + indices_bis
+    dataset_test = torch.utils.data.Subset(dataset_test, idx)
+
 
     # define training and validation data loaders
     train_dataloader = torch.utils.data.DataLoader(
-        dataset, batch_size=config['batch_size'], shuffle=True, num_workers=4,
+        dataset, batch_size=config['batch_size'], shuffle=False, num_workers=4,
         collate_fn=utils.collate_fn)
 
     val_dataloader = torch.utils.data.DataLoader(
@@ -52,13 +65,16 @@ def main(config):
 
     # construct an optimizer
     params = [p for p in nn.parameters() if p.requires_grad]
-    optimizer = torch.optim.SGD(params, lr=0.005,
-                                momentum=0.9, weight_decay=0.0005)
+    optimizer = torch.optim.SGD(params, lr=0.005, momentum=0.9,
+                                 weight_decay=0.0005)
     # and a learning rate scheduler
-    lr_scheduler = torch.optim.lr_scheduler.StepLR(optimizer,
-                                                   step_size=3,
-                                                   gamma=0.1)
+    if config['lr_scheduler'] is not None:
+        lr_scheduler = torch.optim.lr_scheduler.StepLR(optimizer,
+                                                    step_size=3,
+                                                    gamma=0.1)
 
+    else:
+        lr_scheduler = None
 
     trainer = Trainer(
             device = device,
@@ -80,12 +96,11 @@ def main(config):
             weights_path = config['weights_path'],
             )
 
-
+    log_config(config, osp.join(config['weights_path'], config['model_name']))
     trainer.train()
     trainer.save_model()
     #trainer.classification_report()
     trainer.save_loss()
 
-    log_config(config, osp.join(config['weights_path'], config['model_name']))
 
     print('NN saved to directory: ', config['weights_path'])

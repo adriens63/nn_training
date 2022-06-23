@@ -10,6 +10,7 @@ from src.nn.references.detection.coco_eval import CocoEvaluator
 from src.nn.references.detection.coco_utils import get_coco_api_from_dataset
 
 
+
 def train_one_epoch(model, optimizer, data_loader, device, epoch, print_freq, train_steps=None, scaler=None):
     model.train()
     metric_logger = utils.MetricLogger(delimiter="  ")
@@ -77,16 +78,18 @@ def _get_iou_types(model):
 
 
 @torch.inference_mode()
-def evaluate(model, data_loader, device, tasks, val_steps = None):
+def evaluate(model, data_loader, device, tasks, val_steps = None, coco = None):
     n_threads = torch.get_num_threads()
     # FIXME remove this and make paste_masks_in_image run on the GPU
-    torch.set_num_threads(1)
+    torch.set_num_threads(8)
     cpu_device = torch.device("cpu")
     model.eval()
     metric_logger = utils.MetricLogger(delimiter="  ")
     header = "Test:"
 
-    coco = get_coco_api_from_dataset(data_loader.dataset)
+    if coco is None:
+        coco = get_coco_api_from_dataset(data_loader.dataset)
+
     iou_types = tasks
     coco_evaluator = CocoEvaluator(coco, iou_types)
 
@@ -108,7 +111,6 @@ def evaluate(model, data_loader, device, tasks, val_steps = None):
         metric_logger.update(model_time=model_time, evaluator_time=evaluator_time)
 
         if i == val_steps:
-            
             break
 
     # gather the stats from all processes
@@ -121,4 +123,4 @@ def evaluate(model, data_loader, device, tasks, val_steps = None):
     coco_evaluator.summarize()
     torch.set_num_threads(n_threads)
 
-    return coco_evaluator
+    return coco_evaluator, coco

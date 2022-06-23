@@ -61,7 +61,9 @@ class Trainer(BaseTrainer):
             model_name,
             weights_path,
         )
-        self.tasks = tasks  
+        self.tasks = tasks 
+
+        self.coco = None
 
         self.train_metrics = {'train/lr': 0, 'train/loss': 0, 'train/loss_classifier': 0, 'train/loss_box_reg': 0, 'train/loss_mask': 0, 'train/loss_objectness': 0, 'train/loss_rpn_box_reg': 0, 'train/time': 0, 'train/data': 0, 'train/max mem': 0}
         
@@ -77,10 +79,6 @@ class Trainer(BaseTrainer):
                 d[metric] = 0  
             
             self.val_metrics[task] = d
-            
-
-
-            
 
 
 
@@ -98,7 +96,7 @@ class Trainer(BaseTrainer):
     def _val_step(self) -> None:
 
         #self.model.eval()
-        coco_evaluator = evaluate(self.model, self.val_data_loader, device=self.device, tasks = self.tasks, val_steps=self.val_steps)
+        coco_evaluator, self.coco = evaluate(self.model, self.val_data_loader, device=self.device, tasks = self.tasks, val_steps=self.val_steps, coco = self.coco)
 
         for task in self.tasks:
             metrics = coco_evaluator.coco_eval[task].stats

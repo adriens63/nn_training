@@ -80,7 +80,7 @@ class PennFudanDataset(torch.utils.data.Dataset):
 
 
 
-class EndovisDataset(torch.utils.data.Dataset):
+class EndovisTestDataset(torch.utils.data.Dataset):
     def __init__(self, root, transforms):
         self.root = root
         self.transforms = transforms
@@ -162,6 +162,129 @@ class EndovisDataset(torch.utils.data.Dataset):
 
     def __len__(self):
         return len(self.imgs)
+
+
+
+
+
+class EndovisTunedDataset(torch.utils.data.Dataset):
+    def __init__(self, root, transforms, num_classes, train, val_frac):
+        self.root = root
+        self.transforms = transforms
+        # load all image files, sorting them to
+        # ensure that they are aligned
+        self.num_classes = num_classes
+        self.sub_folders = list(sorted(os.listdir(root)))
+        self.sub_sub_folder = 'left_frames'
+        self.sub_sub_folder_masks = 'ground_truth'
+        self.imgs = []
+        self.imgs_val = []
+
+        self.all_cat = {}
+        self.cat_id = 0 # at the end of the __init__, self.cat_id is the number of categories
+
+        for sf in self.sub_folders[:-1]:
+            
+
+            list_img = list(sorted(os.listdir(osp.join(root, sf, self.sub_sub_folder)))) # depends on this sf
+            list_cat = list(sorted(os.listdir(osp.join(root, sf, self.sub_sub_folder_masks))))
+
+            val_size = int(val_frac * len(list_img))
+
+            for cat in list_cat:
+                if cat not in self.all_cat:
+                    self.all_cat[cat] = self.cat_id
+                    self.cat_id += 1
+
+            if train:
+                for img in list_img[:-val_size]:
+                    img = {'img_path': osp.join(root, sf, self.sub_sub_folder, img),
+                        'masks_path': [osp.join(root, sf, self.sub_sub_folder_masks, cat ,img) for cat in list_cat], # the masks are ordered as the labels
+                        'labels': list_cat}
+
+                    self.imgs.append(img)
+            
+            if not train:
+                for img in list_img[-val_size:]:
+                    img = {'img_path': osp.join(root, sf, self.sub_sub_folder, img),
+                        'masks_path': [osp.join(root, sf, self.sub_sub_folder_masks, cat ,img) for cat in list_cat], # the masks are ordered as the labels
+                        'labels': list_cat}
+
+                    self.imgs.append(img)
+
+
+    def __getitem__(self, idx):
+        img_dict = self.imgs[idx]
+
+        # load images and masks
+        img_path = img_dict['img_path']
+        img = Image.open(img_path).convert("RGB")
+
+        masks_paths = img_dict['masks_path']
+        masks_list = [Image.open(mask_path) for mask_path in masks_paths]
+
+        masks_list_bool = []
+        for mask in masks_list:
+            # parts are encoded as different colors
+            mask = np.array(mask)
+            mask_bool = mask != 0
+            if (mask_bool == False).all():
+                continue
+            masks_list_bool.append(mask_bool)
+
+        if masks_list_bool == []:
+            return self.__getitem__(idx - 1)
+
+        masks = np.stack(masks_list_bool, axis=0) # shape [N, h, w], bool
+
+
+        # get bounding box coordinates for each mask
+        num_objs = len(img_dict['labels'])
+        boxes = []
+        for i in range(len(masks_list_bool)):
+            pos = np.where(masks[i])
+            xmin = np.min(pos[1])
+            xmax = np.max(pos[1])
+            ymin = np.min(pos[0])
+            ymax = np.max(pos[0])
+            if xmin >= xmax or ymin >= ymax:
+                continue
+            boxes.append([xmin, ymin, xmax, ymax])
+
+        # convert everything into a torch.Tensor
+        boxes = torch.as_tensor(boxes, dtype=torch.float32)
+        # there is only one class
+
+        if self.num_classes > 2:
+            labels_list = [self.all_cat[cat] for cat in img_dict['labels']]
+            labels = torch.as_tensor(labels_list, dtype=torch.int64)
+        else:
+            labels = torch.ones((num_objs,), dtype=torch.int64)
+
+        masks = torch.as_tensor(masks, dtype=torch.uint8)
+
+        image_id = torch.tensor([idx])
+        area = (boxes[:, 3] - boxes[:, 1]) * (boxes[:, 2] - boxes[:, 0])
+        # suppose all instances are not crowd
+        iscrowd = torch.zeros((num_objs,), dtype=torch.int64)
+
+        target = {}
+        target["boxes"] = boxes
+        target["labels"] = labels
+        target["masks"] = masks
+        target["image_id"] = image_id
+        target["area"] = area
+        target["iscrowd"] = iscrowd
+
+        if self.transforms is not None:
+            img, target = self.transforms(img, target)
+
+        return img, target
+
+    def __len__(self):
+        return len(self.imgs)
+
+
 
 
 
