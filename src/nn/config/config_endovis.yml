@@ -1,9 +1,9 @@
-model_name: fine_tuned_m_r_cnn_0_2
+model_name: fine_tuned_m_r_cnn_0_8
 
 tasks: ['bbox', 'segm']
 heads: 
-  bbox: 'fastrcnn'
-  segm: 'maskrcnn'
+  bbox:
+  segm: 
   class:
 
 val_frac: .2
@@ -13,6 +13,8 @@ distributed_training: True
 
 num_classes: 2
 hidden_layer_segm: 256
+optimizer: 'sgd'
+lr: 0.005
 lr_scheduler:
 
 loss_fn:
@@ -20,12 +22,12 @@ loss_fn:
 dataset: endovis_tuned
 train_ds: /data/user/DATA_SSD1/__adri/endovis_tuned/data
 val_ds: /data/user/DATA_SSD1/__adri/endovis_tuned/data
-weights_path: /data/user/DATA_SSD1/__adri/weights/
+weights_path: /data/user/DATA_SSD1/__adri/weights_multiple_trainings/
 
-batch_size: 6
-epochs: 130
+batch_size: 4
+epochs: 30
 patience: 3
-checkpoint_frequency: 5
+checkpoint_frequency: 3
 
 train_steps:
-val_steps:
+val_steps: 

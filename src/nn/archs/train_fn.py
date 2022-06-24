@@ -25,7 +25,6 @@ torch.cuda.empty_cache()
 def main(config):
     # train on the GPU or on the CPU, if a GPU is not available
     device = torch.device(config['device'])
-
     # use our dataset and defined transformations
     if config['dataset'] == 'pennpudanped':
         dataset = PennFudanDataset(config['train_ds'], get_transform(train=True))
@@ -65,10 +64,16 @@ def main(config):
 
     # construct an optimizer
     params = [p for p in nn.parameters() if p.requires_grad]
-    optimizer = torch.optim.SGD(params, lr=0.005, momentum=0.9,
+
+    if config['optimizer'] == 'adam':
+        optimizer = torch.optim.Adam(params, lr=config['lr'],
+                                 weight_decay=0.0005)
+
+    elif config['optimizer'] == 'sgd' :
+        optimizer = torch.optim.SGD(params, lr=config['lr'], momentum=0.9,
                                  weight_decay=0.0005)
     # and a learning rate scheduler
-    if config['lr_scheduler'] is not None:
+    if 'lr_scheduler' in config:
         lr_scheduler = torch.optim.lr_scheduler.StepLR(optimizer,
                                                     step_size=3,
                                                     gamma=0.1)

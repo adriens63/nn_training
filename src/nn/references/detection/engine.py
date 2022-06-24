@@ -4,6 +4,7 @@ import time
 
 import torch
 import torchvision.models.detection.mask_rcnn
+from datasets import load_metric
 
 import src.nn.references.detection.utils as utils
 from src.nn.references.detection.coco_eval import CocoEvaluator
@@ -79,6 +80,9 @@ def _get_iou_types(model):
 
 @torch.inference_mode()
 def evaluate(model, data_loader, device, tasks, val_steps = None, coco = None):
+
+    #class_metric = load_metric('recall')
+
     n_threads = torch.get_num_threads()
     # FIXME remove this and make paste_masks_in_image run on the GPU
     torch.set_num_threads(8)
@@ -94,14 +98,25 @@ def evaluate(model, data_loader, device, tasks, val_steps = None, coco = None):
     coco_evaluator = CocoEvaluator(coco, iou_types)
 
     for i, (images, targets) in enumerate(metric_logger.log_every(data_loader, 100, header)):
-        images = list((img/255).to(device) for img in images)
+        images = list((image/255).to(device) for image in images)
+        targets = [{k: v.to(device) for k, v in t.items()} for t in targets]
+
+        # ************ modified *************
 
         if torch.cuda.is_available():
             torch.cuda.synchronize()
         model_time = time.time()
-        outputs = model(images)
+        loss_dict, outputs = model(images, targets)
 
-        outputs = [{k: v.to(cpu_device) for k, v in t.items()} for t in outputs]
+        # reduce losses over all GPUs for logging purposes
+        loss_dict_reduced = utils.reduce_dict(loss_dict)
+        losses_reduced = sum(loss for loss in loss_dict_reduced.values())
+
+        metric_logger.update(loss=losses_reduced, **loss_dict_reduced)
+        # *************************
+
+        outputs = [{k: v.to(cpu_device) for k, v in o.items()} for o in outputs]
+        targets = [{k: v.to(cpu_device) for k, v in t.items()} for t in targets]
         model_time = time.time() - model_time
 
         res = {target["image_id"].item(): output for target, output in zip(targets, outputs)}
@@ -110,8 +125,19 @@ def evaluate(model, data_loader, device, tasks, val_steps = None, coco = None):
         evaluator_time = time.time() - evaluator_time
         metric_logger.update(model_time=model_time, evaluator_time=evaluator_time)
 
+        # metrics for classification
+        # list_pred_class = [o['labels'].to(cpu_device) for o in outputs] # tensor list
+        # pred = torch.cat(list_pred_class, axis = 0)
+
+        # list_ref_class = [t['labels'].to(cpu_device) for t in targets] # tensor list
+        # ref = torch.cat(list_ref_class, axis = 0)
+        # class_metric.add_batch(predictions = pred, references = ref)
+
+
         if i == val_steps:
             break
+    
+    #class_metrics_dict = class_metrics.compute()
 
     # gather the stats from all processes
     metric_logger.synchronize_between_processes()
@@ -123,4 +149,4 @@ def evaluate(model, data_loader, device, tasks, val_steps = None, coco = None):
     coco_evaluator.summarize()
     torch.set_num_threads(n_threads)
 
-    return coco_evaluator, coco
+    return coco_evaluator, coco, metric_logger
