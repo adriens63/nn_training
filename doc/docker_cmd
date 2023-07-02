@@ -1,0 +1,12 @@
+docker run -p 8900:8888 -it -v ~/git/coding:/coding_linux20 -v /media:/media --gpus all --ipc host --runtime nvidia adrienserviere/docker_torchgpu_encov_2:0.0.1
+
+docker run -p 8910:8888 \
+	-it \
+	--name container_2 \
+	-v ~/git/coding:/coding_linux20 \
+	-v /media:/data \
+	-v /media/user/DATA_SSD/__adri:/data_2 \
+	--runtime nvidia \
+	--gpus all \
+	--ipc host \
+	adrienserviere/docker_torchgpu_encov_2:0.0.1
