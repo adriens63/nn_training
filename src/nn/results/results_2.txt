@@ -1,0 +1,175 @@
+Summary: 
++-------------------------------------------------+------------+
+|                     Modules                     | Parameters |
++-------------------------------------------------+------------+
+|       backbone.body.layer2.0.conv1.weight       |   32768    |
+|       backbone.body.layer2.0.conv2.weight       |   147456   |
+|       backbone.body.layer2.0.conv3.weight       |   65536    |
+|    backbone.body.layer2.0.downsample.0.weight   |   131072   |
+|       backbone.body.layer2.1.conv1.weight       |   65536    |
+|       backbone.body.layer2.1.conv2.weight       |   147456   |
+|       backbone.body.layer2.1.conv3.weight       |   65536    |
+|       backbone.body.layer2.2.conv1.weight       |   65536    |
+|       backbone.body.layer2.2.conv2.weight       |   147456   |
+|       backbone.body.layer2.2.conv3.weight       |   65536    |
+|       backbone.body.layer2.3.conv1.weight       |   65536    |
+|       backbone.body.layer2.3.conv2.weight       |   147456   |
+|       backbone.body.layer2.3.conv3.weight       |   65536    |
+|       backbone.body.layer3.0.conv1.weight       |   131072   |
+|       backbone.body.layer3.0.conv2.weight       |   589824   |
+|       backbone.body.layer3.0.conv3.weight       |   262144   |
+|    backbone.body.layer3.0.downsample.0.weight   |   524288   |
+|       backbone.body.layer3.1.conv1.weight       |   262144   |
+|       backbone.body.layer3.1.conv2.weight       |   589824   |
+|       backbone.body.layer3.1.conv3.weight       |   262144   |
+|       backbone.body.layer3.2.conv1.weight       |   262144   |
+|       backbone.body.layer3.2.conv2.weight       |   589824   |
+|       backbone.body.layer3.2.conv3.weight       |   262144   |
+|       backbone.body.layer3.3.conv1.weight       |   262144   |
+|       backbone.body.layer3.3.conv2.weight       |   589824   |
+|       backbone.body.layer3.3.conv3.weight       |   262144   |
+|       backbone.body.layer3.4.conv1.weight       |   262144   |
+|       backbone.body.layer3.4.conv2.weight       |   589824   |
+|       backbone.body.layer3.4.conv3.weight       |   262144   |
+|       backbone.body.layer3.5.conv1.weight       |   262144   |
+|       backbone.body.layer3.5.conv2.weight       |   589824   |
+|       backbone.body.layer3.5.conv3.weight       |   262144   |
+|       backbone.body.layer4.0.conv1.weight       |   524288   |
+|       backbone.body.layer4.0.conv2.weight       |  2359296   |
+|       backbone.body.layer4.0.conv3.weight       |  1048576   |
+|    backbone.body.layer4.0.downsample.0.weight   |  2097152   |
+|       backbone.body.layer4.1.conv1.weight       |  1048576   |
+|       backbone.body.layer4.1.conv2.weight       |  2359296   |
+|       backbone.body.layer4.1.conv3.weight       |  1048576   |
+|       backbone.body.layer4.2.conv1.weight       |  1048576   |
+|       backbone.body.layer4.2.conv2.weight       |  2359296   |
+|       backbone.body.layer4.2.conv3.weight       |  1048576   |
+|        backbone.fpn.inner_blocks.0.weight       |   65536    |
+|         backbone.fpn.inner_blocks.0.bias        |    256     |
+|        backbone.fpn.inner_blocks.1.weight       |   131072   |
+|         backbone.fpn.inner_blocks.1.bias        |    256     |
+|        backbone.fpn.inner_blocks.2.weight       |   262144   |
+|         backbone.fpn.inner_blocks.2.bias        |    256     |
+|        backbone.fpn.inner_blocks.3.weight       |   524288   |
+|         backbone.fpn.inner_blocks.3.bias        |    256     |
+|        backbone.fpn.layer_blocks.0.weight       |   589824   |
+|         backbone.fpn.layer_blocks.0.bias        |    256     |
+|        backbone.fpn.layer_blocks.1.weight       |   589824   |
+|         backbone.fpn.layer_blocks.1.bias        |    256     |
+|        backbone.fpn.layer_blocks.2.weight       |   589824   |
+|         backbone.fpn.layer_blocks.2.bias        |    256     |
+|        backbone.fpn.layer_blocks.3.weight       |   589824   |
+|         backbone.fpn.layer_blocks.3.bias        |    256     |
+|               rpn.head.conv.weight              |   589824   |
+|                rpn.head.conv.bias               |    256     |
+|            rpn.head.cls_logits.weight           |    768     |
+|             rpn.head.cls_logits.bias            |     3      |
+|            rpn.head.bbox_pred.weight            |    3072    |
+|             rpn.head.bbox_pred.bias             |     12     |
+|          roi_heads.box_head.fc6.weight          |  12845056  |
+|           roi_heads.box_head.fc6.bias           |    1024    |
+|          roi_heads.box_head.fc7.weight          |  1048576   |
+|           roi_heads.box_head.fc7.bias           |    1024    |
+|     roi_heads.box_predictor.cls_score.weight    |    2048    |
+|      roi_heads.box_predictor.cls_score.bias     |     2      |
+|     roi_heads.box_predictor.bbox_pred.weight    |    8192    |
+|      roi_heads.box_predictor.bbox_pred.bias     |     8      |
+|       roi_heads.mask_head.mask_fcn1.weight      |   589824   |
+|        roi_heads.mask_head.mask_fcn1.bias       |    256     |
+|       roi_heads.mask_head.mask_fcn2.weight      |   589824   |
+|        roi_heads.mask_head.mask_fcn2.bias       |    256     |
+|       roi_heads.mask_head.mask_fcn3.weight      |   589824   |
+|        roi_heads.mask_head.mask_fcn3.bias       |    256     |
+|       roi_heads.mask_head.mask_fcn4.weight      |   589824   |
+|        roi_heads.mask_head.mask_fcn4.bias       |    256     |
+|    roi_heads.mask_predictor.conv5_mask.weight   |   262144   |
+|     roi_heads.mask_predictor.conv5_mask.bias    |    256     |
+| roi_heads.mask_predictor.mask_fcn_logits.weight |    512     |
+|  roi_heads.mask_predictor.mask_fcn_logits.bias  |     2      |
++-------------------------------------------------+------------+
+Total Trainable Params: 43699995
+done;
+
+'_summary' 0.00 sec
+
+.... Start training
+Epoch: [0]  [ 0/60]  eta: 0:01:23  lr: 0.000090  loss: 4.3253 (4.3253)  loss_classifier: 0.7864 (0.7864)  loss_box_reg: 0.4477 (0.4477)  loss_mask: 3.0713 (3.0713)  loss_objectness: 0.0129 (0.0129)  loss_rpn_box_reg: 0.0071 (0.0071)  time: 1.3969  data: 0.1556  max mem: 2582
+creating index...
+index created!
+Test:  [ 0/25]  eta: 0:00:11  model_time: 0.3010 (0.3010)  evaluator_time: 0.0509 (0.0509)  time: 0.4755  data: 0.1184  max mem: 3232
+Averaged stats: model_time: 0.3010 (0.3186)  evaluator_time: 0.0273 (0.0406)
+Accumulating evaluation results...
+DONE (t=0.01s).
+Accumulating evaluation results...
+DONE (t=0.01s).
+IoU metric: bbox
+ Average Precision  (AP) @[ IoU=0.50:0.95 | area=   all | maxDets=100 ] = 0.533
+ Average Precision  (AP) @[ IoU=0.50      | area=   all | maxDets=100 ] = 0.907
+ Average Precision  (AP) @[ IoU=0.75      | area=   all | maxDets=100 ] = 0.463
+ Average Precision  (AP) @[ IoU=0.50:0.95 | area= small | maxDets=100 ] = -1.000
+ Average Precision  (AP) @[ IoU=0.50:0.95 | area=medium | maxDets=100 ] = 0.134
+ Average Precision  (AP) @[ IoU=0.50:0.95 | area= large | maxDets=100 ] = 0.561
+ Average Recall     (AR) @[ IoU=0.50:0.95 | area=   all | maxDets=  1 ] = 0.209
+ Average Recall     (AR) @[ IoU=0.50:0.95 | area=   all | maxDets= 10 ] = 0.657
+ Average Recall     (AR) @[ IoU=0.50:0.95 | area=   all | maxDets=100 ] = 0.657
+ Average Recall     (AR) @[ IoU=0.50:0.95 | area= small | maxDets=100 ] = -1.000
+ Average Recall     (AR) @[ IoU=0.50:0.95 | area=medium | maxDets=100 ] = 0.500
+ Average Recall     (AR) @[ IoU=0.50:0.95 | area= large | maxDets=100 ] = 0.667
+IoU metric: segm
+ Average Precision  (AP) @[ IoU=0.50:0.95 | area=   all | maxDets=100 ] = 0.579
+ Average Precision  (AP) @[ IoU=0.50      | area=   all | maxDets=100 ] = 0.907
+ Average Precision  (AP) @[ IoU=0.75      | area=   all | maxDets=100 ] = 0.748
+ Average Precision  (AP) @[ IoU=0.50:0.95 | area= small | maxDets=100 ] = -1.000
+ Average Precision  (AP) @[ IoU=0.50:0.95 | area=medium | maxDets=100 ] = 0.244
+ Average Precision  (AP) @[ IoU=0.50:0.95 | area= large | maxDets=100 ] = 0.605
+ Average Recall     (AR) @[ IoU=0.50:0.95 | area=   all | maxDets=  1 ] = 0.220
+ Average Recall     (AR) @[ IoU=0.50:0.95 | area=   all | maxDets= 10 ] = 0.689
+ Average Recall     (AR) @[ IoU=0.50:0.95 | area=   all | maxDets=100 ] = 0.689
+ Average Recall     (AR) @[ IoU=0.50:0.95 | area= small | maxDets=100 ] = -1.000
+ Average Recall     (AR) @[ IoU=0.50:0.95 | area=medium | maxDets=100 ] = 0.650
+ Average Recall     (AR) @[ IoU=0.50:0.95 | area= large | maxDets=100 ] = 0.691
+Epoch: [1]  [ 0/60]  eta: 0:00:42  lr: 0.000936  loss: 0.3665 (0.3665)  loss_classifier: 0.0863 (0.0863)  loss_box_reg: 0.0903 (0.0903)  loss_mask: 0.1827 (0.1827)  loss_objectness: 0.0061 (0.0061)  loss_rpn_box_reg: 0.0011 (0.0011)  time: 0.7082  data: 0.1010  max mem: 3232
+creating index...
+index created!
+Test:  [ 0/25]  eta: 0:00:11  model_time: 0.2816 (0.2816)  evaluator_time: 0.0327 (0.0327)  time: 0.4521  data: 0.1312  max mem: 3232
+Averaged stats: model_time: 0.2816 (0.2876)  evaluator_time: 0.0276 (0.0306)
+Accumulating evaluation results...
+DONE (t=0.01s).
+Accumulating evaluation results...
+DONE (t=0.00s).
+IoU metric: bbox
+ Average Precision  (AP) @[ IoU=0.50:0.95 | area=   all | maxDets=100 ] = 0.507
+ Average Precision  (AP) @[ IoU=0.50      | area=   all | maxDets=100 ] = 0.937
+ Average Precision  (AP) @[ IoU=0.75      | area=   all | maxDets=100 ] = 0.443
+ Average Precision  (AP) @[ IoU=0.50:0.95 | area= small | maxDets=100 ] = -1.000
+ Average Precision  (AP) @[ IoU=0.50:0.95 | area=medium | maxDets=100 ] = 0.181
+ Average Precision  (AP) @[ IoU=0.50:0.95 | area= large | maxDets=100 ] = 0.525
+ Average Recall     (AR) @[ IoU=0.50:0.95 | area=   all | maxDets=  1 ] = 0.206
+ Average Recall     (AR) @[ IoU=0.50:0.95 | area=   all | maxDets= 10 ] = 0.580
+ Average Recall     (AR) @[ IoU=0.50:0.95 | area=   all | maxDets=100 ] = 0.597
+ Average Recall     (AR) @[ IoU=0.50:0.95 | area= small | maxDets=100 ] = -1.000
+ Average Recall     (AR) @[ IoU=0.50:0.95 | area=medium | maxDets=100 ] = 0.500
+ Average Recall     (AR) @[ IoU=0.50:0.95 | area= large | maxDets=100 ] = 0.603
+IoU metric: segm
+ Average Precision  (AP) @[ IoU=0.50:0.95 | area=   all | maxDets=100 ] = 0.301
+ Average Precision  (AP) @[ IoU=0.50      | area=   all | maxDets=100 ] = 0.831
+ Average Precision  (AP) @[ IoU=0.75      | area=   all | maxDets=100 ] = 0.204
+ Average Precision  (AP) @[ IoU=0.50:0.95 | area= small | maxDets=100 ] = -1.000
+ Average Precision  (AP) @[ IoU=0.50:0.95 | area=medium | maxDets=100 ] = 0.012
+ Average Precision  (AP) @[ IoU=0.50:0.95 | area= large | maxDets=100 ] = 0.337
+ Average Recall     (AR) @[ IoU=0.50:0.95 | area=   all | maxDets=  1 ] = 0.146
+ Average Recall     (AR) @[ IoU=0.50:0.95 | area=   all | maxDets= 10 ] = 0.357
+ Average Recall     (AR) @[ IoU=0.50:0.95 | area=   all | maxDets=100 ] = 0.377
+ Average Recall     (AR) @[ IoU=0.50:0.95 | area= small | maxDets=100 ] = -1.000
+ Average Recall     (AR) @[ IoU=0.50:0.95 | area=medium | maxDets=100 ] = 0.450
+ Average Recall     (AR) @[ IoU=0.50:0.95 | area= large | maxDets=100 ] = 0.373
+done;
+
+.... Saving model
+done;
+
+'save_model' 0.38 sec
+
+'save_loss' 0.00 sec
+
+NN saved to directory:  /coding_linux20/programming/python_scripts/encov_torch/nn_training/src/nn/weights/
